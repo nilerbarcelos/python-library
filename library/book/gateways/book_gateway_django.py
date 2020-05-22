@@ -57,6 +57,9 @@ class BookGatewayDjango(BookGateway):
 
         return self._mount_book_struct(book)
 
+    def delete_book(self, book_id):
+        Book.objects.filter(id=book_id).delete()
+
     @staticmethod
     def _mount_book_struct(book):
         return BookStruct(

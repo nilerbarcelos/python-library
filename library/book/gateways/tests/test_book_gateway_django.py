@@ -192,3 +192,19 @@ class GetBookByIdTests(BookGatewayDjangoTestCase):
     def test_triggers_exception_when_book_does_not_exist(self):
         with self.assertRaises(BookDoesNotExistException):
             self.book_gateway_django.get_book_by_id(9999)
+
+
+class DeleteBookTests(BookGatewayDjangoTestCase):
+    def test_delete_book(self):
+        author = self._create_author(name="Luciano Ramalho")
+        book = self.book_gateway_django.create_book(
+            name="Fluent Python",
+            edition=2,
+            publication_year=2015,
+            authors=[author.author_id]
+        )
+
+        self.book_gateway_django.delete_book(book.book_id)
+
+        with self.assertRaises(BookDoesNotExistException):
+            self.book_gateway_django.get_book_by_id(book.book_id)
