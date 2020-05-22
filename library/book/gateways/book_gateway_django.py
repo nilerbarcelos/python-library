@@ -19,7 +19,7 @@ class BookGatewayDjango(BookGateway):
         for author in authors:
             book.authors.add(author)
 
-        return book
+        return self.get_book_by_id(book_id=book.book_id)
 
     def filter_default(self):
         return Q()
@@ -62,7 +62,7 @@ class BookGatewayDjango(BookGateway):
         return BookStruct(
             book_id=book.book_id,
             name=book.name,
-            edition=book.edition,
+            edition=int(book.edition),
             publication_year=book.publication_year,
             authors=[author.name for author in book.authors.all()]
         )
