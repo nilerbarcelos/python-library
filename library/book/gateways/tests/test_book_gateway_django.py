@@ -194,6 +194,29 @@ class GetBookByIdTests(BookGatewayDjangoTestCase):
             self.book_gateway_django.get_book_by_id(9999)
 
 
+class UpdateBook(BookGatewayDjangoTestCase):
+    def test_update_book(self):
+        author = self._create_author(name="Luciano Ramalho")
+        new_author = self._create_author(name="Machado de Assis")
+        book = self.book_gateway_django.create_book(
+            name="Fluent Python",
+            edition=2,
+            publication_year=2015,
+            authors=[author.author_id]
+        )
+        new_name = 'Dom Casmurro'
+        new_edition = 3
+        new_publication_year = 1999
+        new_authors = [new_author.author_id]
+
+        updated_book = self.book_gateway_django.update_book(book.book_id, name=new_name, edition=new_edition,
+                                             publication_year=new_publication_year, authors=new_authors)
+
+        self.assertEqual(new_name, updated_book.name)
+        self.assertEqual(new_edition, updated_book.edition)
+        self.assertEqual(new_publication_year, updated_book.publication_year)
+        self.assertEqual([new_author.name], updated_book.authors)
+
 class DeleteBookTests(BookGatewayDjangoTestCase):
     def test_delete_book(self):
         author = self._create_author(name="Luciano Ramalho")

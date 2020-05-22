@@ -12,5 +12,8 @@ class BookGateway(object):
     def get_book_by_id(self, book_id):
         raise NotImplementedError
 
+    def update_book(self, book_id, name=None, edition=None, publication_year=None, authors=None):
+        raise NotImplementedError
+
     def delete_book(self, book_id):
         raise NotImplementedError

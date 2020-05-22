@@ -57,6 +57,10 @@ class BookGatewayDjango(BookGateway):
 
         return self._mount_book_struct(book)
 
+    def update_book(self, book_id, name=None, edition=None, publication_year=None, authors=None):
+        self.delete_book(book_id)
+        return self.create_book(name=name, edition=edition, publication_year=publication_year, authors=authors)
+
     def delete_book(self, book_id):
         Book.objects.filter(id=book_id).delete()
 
