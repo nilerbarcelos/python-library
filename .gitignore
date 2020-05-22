@@ -1,2 +1,5 @@
 .idea
 library/venv*/
+/venv/lib/python3.6/site-packages*/
+/venv/bin/futurize
+/venv/bin/pasteurize
