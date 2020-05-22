@@ -3,6 +3,7 @@ from django.test import TestCase
 from library.author.models import Author
 from library.book.factories.book_gateway_django_factory import BookGatewayDjangoFactory
 from library.book.models import Book
+from library.core.exceptions import BookDoesNotExistException
 
 
 class BookGatewayDjangoTestCase(TestCase):
@@ -170,3 +171,24 @@ class GetBooksTests(BookGatewayDjangoTestCase):
         self.assertEqual(1, len(books))
         self.assertEqual(book_of_page_two.book_id, books[0].book_id)
         self.assertEqual(book_of_page_two.name, books[0].name)
+
+
+class GetBookByIdTests(BookGatewayDjangoTestCase):
+    def test_get_book_by_id(self):
+        author = self._create_author(name="Luciano Ramalho")
+        book = self.book_gateway_django.create_book(
+            name="Fluent Python",
+            edition=2,
+            publication_year=2015,
+            authors=[author.author_id]
+        )
+
+        returned_book = self.book_gateway_django.get_book_by_id(book.book_id)
+
+        self.assertEqual(book.book_id, returned_book.book_id)
+        self.assertEqual(book.name, returned_book.name)
+        self.assertEqual([author.name], returned_book.authors)
+
+    def test_triggers_exception_when_book_does_not_exist(self):
+        with self.assertRaises(BookDoesNotExistException):
+            self.book_gateway_django.get_book_by_id(9999)

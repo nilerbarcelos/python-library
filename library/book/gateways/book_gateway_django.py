@@ -5,6 +5,8 @@ from library.core.book.gateways.book_gateway import BookGateway, RECORDS_IN_PAGI
 from library.core.book.structs import BookStruct
 from future.utils import lmap
 
+from library.core.exceptions import BookDoesNotExistException
+
 
 class BookGatewayDjango(BookGateway):
     def create_book(self, name=None, edition=None, publication_year=None, authors=None):
@@ -46,6 +48,14 @@ class BookGatewayDjango(BookGateway):
         books = lmap(self._mount_book_struct, registers)
 
         return books, total_table_records
+
+    def get_book_by_id(self, book_id):
+        try:
+            book = Book.objects.prefetch_related('authors').get(id=book_id)
+        except Book.DoesNotExist:
+            raise BookDoesNotExistException(book_id)
+
+        return self._mount_book_struct(book)
 
     @staticmethod
     def _mount_book_struct(book):
