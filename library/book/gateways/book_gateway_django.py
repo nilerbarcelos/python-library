@@ -1,6 +1,9 @@
+from django.db.models import Q
+
 from library.book.models import Book
-from library.core.book.gateways.book_gateway import BookGateway
+from library.core.book.gateways.book_gateway import BookGateway, RECORDS_IN_PAGINATION
 from library.core.book.structs import BookStruct
+from future.utils import lmap
 
 
 class BookGatewayDjango(BookGateway):
@@ -14,12 +17,42 @@ class BookGatewayDjango(BookGateway):
         for author in authors:
             book.authors.add(author)
 
-        return self._mount_book_struct(book)
+        return book
+
+    def filter_default(self):
+        return Q()
+
+    def get_books(self, name=None, edition=None, publication_year=None,
+                  author=None, page=None, records_in_pagination=RECORDS_IN_PAGINATION):
+        offset = None
+        limit = None
+
+        if page and records_in_pagination:
+            offset = (page * records_in_pagination) - records_in_pagination
+            limit = offset + records_in_pagination
+
+        parameter = self.filter_default()
+        if name is not None:
+            parameter &= Q(name=name)
+        if edition is not None:
+            parameter &= Q(edition=edition)
+        if publication_year is not None:
+            parameter &= Q(publication_year=publication_year)
+        if author is not None:
+            parameter &= Q(authors__name=author)
+
+        registers = Book.objects.prefetch_related('authors').filter(parameter)[offset:limit]
+        total_table_records = Book.objects.filter(parameter).count()
+        books = lmap(self._mount_book_struct, registers)
+
+        return books, total_table_records
 
     @staticmethod
     def _mount_book_struct(book):
         return BookStruct(
+            book_id=book.book_id,
             name=book.name,
             edition=book.edition,
-            publication_year=book.publication_year
+            publication_year=book.publication_year,
+            authors=[author.name for author in book.authors.all()]
         )
