@@ -20,4 +20,5 @@ urlpatterns = [
     # path('students/', include('students.urls')),
     # path('admin/', admin.site.urls),
     url('library/', include('library.author.urls')),
+    url('library/', include('library.book.urls')),
 ]
