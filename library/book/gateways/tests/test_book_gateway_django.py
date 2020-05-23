@@ -2,7 +2,6 @@ from django.test import TestCase
 
 from library.author.models import Author
 from library.book.factories.book_gateway_django_factory import BookGatewayDjangoFactory
-from library.book.models import Book
 from library.core.exceptions import BookDoesNotExistException
 
 
@@ -12,14 +11,6 @@ class BookGatewayDjangoTestCase(TestCase):
 
     def _create_author(self, name=None):
         return Author.objects.create(name=name)
-
-    def _create_book(self, name=None, edition=None, publication_year=None, authors=None):
-        return Book.objects.create(
-            name=name,
-            edition=edition,
-            publication_year=publication_year,
-            authors=authors
-        )
 
 
 class CreateBookTests(BookGatewayDjangoTestCase):
