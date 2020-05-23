@@ -31,7 +31,7 @@ Get author by name
 https://django-library-olist.herokuapp.com/library/authors?name={author_name}
 
 Create Book
-> POST: https://django-library-olist.herokuapp.com/library/books/
+POST: https://django-library-olist.herokuapp.com/library/books/
 
 Get paginated list of books
 GET: https://django-library-olist.herokuapp.com/library/books/
@@ -55,4 +55,12 @@ PUT: https://django-library-olist.herokuapp.com/library/books/{id_book}/
 Delete book
 DELETE: https://django-library-olist.herokuapp.com/library/books/{id_book}/
 
+```
+
+# Development environment
+```
+macOS Catalina
+IDE Pycharm Professional
+Django 3.0.6
+Python 3.6.3
 ```
