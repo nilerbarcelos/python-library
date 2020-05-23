@@ -1,4 +1,4 @@
-RECORDS_IN_PAGINATION = 2
+RECORDS_IN_PAGINATION = 5
 
 
 class BookGateway(object):
