@@ -1,4 +1,4 @@
-# library-olist
+# library
 > Application for a library to store book and authors data.
 
 # Installation
