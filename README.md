@@ -3,10 +3,10 @@
 
 # Installation
 Clone the project:
-> git clone git@github.com:nilerbarcelos/library-olist.git
+> git clone git@github.com:nilerbarcelos/python-library.git
 
 Access cloned project folder:
-> cd library-olist
+> cd python-library
 
 Install the project dependencies:
 > pip install -r requirements.txt
