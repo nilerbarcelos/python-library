@@ -7,6 +7,6 @@ gunicorn==20.0.4
 psycopg2==2.8.5
 pytz==2020.1
 sqlparse==0.3.1
-ujson==1.35
+ujson==5.2.0
 voluptuous==0.11.7
 whitenoise==5.1.0
